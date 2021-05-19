@@ -1,6 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_app/Models/UserModel.dart';
+import 'package:flutter_app/Screens/UserDetailsView.dart';
 import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
@@ -11,75 +12,71 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List users = [
-  ];
-  bool isLoading = false;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    this.fetchUsers();
-  }
 
-  fetchUsers() async{
-    var url = "https://reqres.in/api/users?per_page=12";
-    var response = await http.get(url);
-    if(response.statusCode == 200){
-      var items = json.decode(response.body)["data"];
-      setState(() {
-        users = items;
-      });
-      print(items);
+  Future<List<UserModel>> getUsers() async {
+
+    var data = await http.get("https://reqres.in/api/users?per_page=12");
+    var jsonData = json.decode(data.body)['data'];
+
+    List<UserModel> users = [];
+
+    for(var u in jsonData){
+
+      UserModel user = UserModel(u["id"], u["first_name"], u["last_name"], u["email"], u["avatar"]);
+      users.add(user);
+
     }
+
+    return users;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return new Scaffold(
       appBar: AppBar(
         title: Text("User Data"),
       ),
-      body: getBody(),
-
-    );
-  }
-
-  Widget getBody(){
-    List items = [
-      "1","2"
-    ];
-
-    return ListView.builder(
-        itemCount: users.length,
-        itemBuilder: (context,index){
-      return getCard(users[index]);
-    });
-  }
-
-  Widget getCard(index){
-
-    var fullName = index['first_name']+" "+index['last_name'];
-    var avatar = index['avatar'];
-    return InkWell(
-      onTap: (){
-      },
-      child: Column(
-        children: [
-          ListTile(
-            leading: CircleAvatar(
-              radius: 25,
-              backgroundImage: NetworkImage(
-                  avatar
-              ),
-            ),
-            title: Text(fullName.toString()),
-          ),
-          Padding(padding: const EdgeInsets.only(right: 20, left: 80),
-            child: Divider(
-              thickness: 1.5,
-            ),),
-        ],
+      body: Container(
+        child: FutureBuilder(
+          future: getUsers(),
+          builder: (BuildContext context, AsyncSnapshot snapshot){
+            if(snapshot.data == null){
+              return Container(
+                  child: Center(
+                      child: Text("Loading...")
+                  )
+              );
+            } else {
+              return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>UserDetailsView(snapshot.data[index])));
+                    },
+                    child: Column(
+                      children: [
+                        ListTile(
+                          leading: CircleAvatar(
+                            radius: 30 ,
+                            backgroundImage: NetworkImage(
+                                snapshot.data[index].avatar
+                            ),
+                          ),
+                          title: Text(snapshot.data[index].firstName+" "+snapshot.data[index].lastName),
+                        ),
+                        Padding(padding: EdgeInsets.only(right: 20,left: 80),
+                        child: Divider(thickness: 1.5),)
+                      ],
+                    ),
+                  );
+                },
+              );
+            }
+          },
+        ),
       ),
     );
   }
+
 }
