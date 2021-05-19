@@ -6,6 +6,7 @@ import 'package:photo_view/photo_view.dart';
 
 class UserDetailsView extends StatefulWidget {
   final UserModel userModel;
+
   UserDetailsView(this.userModel);
 
   @override
@@ -13,7 +14,6 @@ class UserDetailsView extends StatefulWidget {
 }
 
 class _UserDetailsViewState extends State<UserDetailsView> {
-
   // Future<List<UserModel>> switchUser() async {
   //   int id = widget.userModel.id;
   //   var data = await http.get("https://reqres.in/api/users/"+id.toString());
@@ -34,57 +34,73 @@ class _UserDetailsViewState extends State<UserDetailsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     appBar: AppBar(title: Text(widget.userModel.firstName+" "+ widget.userModel.lastName)),
-      body: ListView(
-        children: [
-          Container(
-            height: 100,
-            child: PhotoView(
-              backgroundDecoration: BoxDecoration(color: Colors.transparent),
-              imageProvider: NetworkImage(widget.userModel.avatar),
-              minScale: PhotoViewComputedScale.contained * 0.8,
-              maxScale: 4.0,
+        appBar: AppBar(
+            title: Text(
+                widget.userModel.firstName + " " + widget.userModel.lastName)),
+        body: ListView(
+          children: [
+            Container(
+              height: 40,
             ),
-          ),
-          Padding(padding: EdgeInsets.all(10)),
-          Center(
-            child: Text(widget.userModel.id.toString(), style: TextStyle(fontSize: 18),),
-          ),
-          Center(
-            child: Text(widget.userModel.firstName+" "+ widget.userModel.lastName, style: TextStyle(fontSize: 18),),
-          ),
-          Center(
-            child: Text(widget.userModel.email, style: TextStyle(fontSize: 18),),
-          ),
-          Padding(padding: EdgeInsets.all(10)),
-          Stack(
-            children: <Widget>[
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: FloatingActionButton(onPressed: (){
-                },
-                    child: Icon(Icons.navigate_before)),
+            Container(
+              height: 150,
+              child: PhotoView(
+                backgroundDecoration: BoxDecoration(color: Colors.transparent),
+                imageProvider: NetworkImage(widget.userModel.avatar),
+                minScale: PhotoViewComputedScale.contained * 0.8,
+                maxScale: 4.0,
               ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: FloatingActionButton(onPressed: (){
-                  nextUser(widget.userModel.id);
-                },
-                    child: Icon(Icons.navigate_next),),
+            ),
+            Container(
+              height: 40,
+            ),
+            Center(
+              child: Text(
+                widget.userModel.id.toString(),
+                style: TextStyle(fontSize: 18),
               ),
-            ],
-          )
-        ],
-        
-      )
-    );
+            ),
+            Center(
+              child: Text(
+                widget.userModel.firstName + " " + widget.userModel.lastName,
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+            Center(
+              child: Text(
+                widget.userModel.email,
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+            Padding(padding: EdgeInsets.all(10)),
+            Stack(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: FloatingActionButton(
+                      onPressed: () {}, child: Icon(Icons.navigate_before)),
+                ),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      nextUser(widget.userModel.id);
+                    },
+                    child: Icon(Icons.navigate_next),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ));
   }
 
-  Widget nextUser(id){
+  Widget nextUser(id) {
     id++;
     return Scaffold(
-      appBar: AppBar(title: Text(widget.userModel.id.toString()),),
+      appBar: AppBar(
+        title: Text(widget.userModel.id.toString()),
+      ),
     );
   }
 }
-

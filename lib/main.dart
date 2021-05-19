@@ -12,12 +12,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        fontFamily: "OpenSans"
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "OpenSans"),
       home: Home(),
     );
   }
 }
-

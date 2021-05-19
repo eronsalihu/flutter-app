@@ -5,13 +5,12 @@ import 'package:flutter_app/data/home_repository.dart';
 import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
-
-@override
+  @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  final Home_Repository home_repository = new Home_Repository();
+  final HomeRepository home_repository = new HomeRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -22,34 +21,37 @@ class _HomeState extends State<Home> {
       body: Container(
         child: FutureBuilder(
           future: home_repository.getUsers(),
-          builder: (BuildContext context, AsyncSnapshot snapshot){
-            if(snapshot.data == null){
-              return Container(
-                  child: Center(
-                      child: Text("Loading...")
-                  )
-              );
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.data == null) {
+              return Container(child: Center(child: Text("Loading...")));
             } else {
               return ListView.builder(
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>UserDetailsView(snapshot.data[index])));
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  UserDetailsView(snapshot.data[index])));
                     },
                     child: Column(
                       children: [
                         ListTile(
                           leading: CircleAvatar(
-                            radius: 30 ,
-                            backgroundImage: NetworkImage(
-                                snapshot.data[index].avatar
-                            ),
+                            radius: 30,
+                            backgroundImage:
+                                NetworkImage(snapshot.data[index].avatar),
                           ),
-                          title: Text(snapshot.data[index].firstName+" "+snapshot.data[index].lastName),
+                          title: Text(snapshot.data[index].firstName +
+                              " " +
+                              snapshot.data[index].lastName),
                         ),
-                        Padding(padding: EdgeInsets.only(right: 20,left: 80),
-                        child: Divider(thickness: 1.5),)
+                        Padding(
+                          padding: EdgeInsets.only(right: 20, left: 80),
+                          child: Divider(thickness: 1.5),
+                        )
                       ],
                     ),
                   );
@@ -61,5 +63,4 @@ class _HomeState extends State<Home> {
       ),
     );
   }
-
 }
