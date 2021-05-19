@@ -1,34 +1,17 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/Models/UserModel.dart';
-import 'package:flutter_app/Screens/UserDetailsView.dart';
+import 'package:flutter_app/Screens/user_details_view.dart';
+import 'package:flutter_app/data/home_repository.dart';
 import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
-  const Home({Key key}) : super(key: key);
 
 @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-
-  Future<List<UserModel>> getUsers() async {
-
-    var data = await http.get("https://reqres.in/api/users?per_page=12");
-    var jsonData = json.decode(data.body)['data'];
-
-    List<UserModel> users = [];
-
-    for(var u in jsonData){
-
-      UserModel user = UserModel(u["id"], u["first_name"], u["last_name"], u["email"], u["avatar"]);
-      users.add(user);
-
-    }
-
-    return users;
-  }
+  final Home_Repository home_repository = new Home_Repository();
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +21,7 @@ class _HomeState extends State<Home> {
       ),
       body: Container(
         child: FutureBuilder(
-          future: getUsers(),
+          future: home_repository.getUsers(),
           builder: (BuildContext context, AsyncSnapshot snapshot){
             if(snapshot.data == null){
               return Container(
