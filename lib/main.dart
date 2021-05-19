@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/Models/CustomCard.dart';
-import 'package:flutter_app/Views/HomeScreen.dart';
+import 'package:flutter_app/Screens/Home.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,7 +11,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      title: 'Flutter App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        fontFamily: "OpenSans"
+      ),
+      home: Home(),
     );
   }
 }
