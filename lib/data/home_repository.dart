@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_app/models/user_model.dart';
 
@@ -26,5 +24,4 @@ class HomeRepository {
     print(jsonData);
     return jsonData;
   }
-
 }

@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/user_details_view.dart';
 import 'package:flutter_app/data/home_repository.dart';
-import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
   @override
@@ -17,6 +15,8 @@ class _HomeState extends State<Home> {
     return new Scaffold(
       appBar: AppBar(
         title: Text("User Data"),
+        elevation: 20.0,
+        brightness: Brightness.dark,
       ),
       body: Container(
         child: FutureBuilder(
@@ -37,23 +37,25 @@ class _HomeState extends State<Home> {
                               builder: (context) =>
                                   UserDetailsView(snapshot.data[index])));
                     },
-                    child: Column(
-                      children: [
-                        ListTile(
-                          leading: CircleAvatar(
-                            radius: 30,
-                            backgroundImage:
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            ListTile(
+                              leading: CircleAvatar(
+                                radius: 30,
+                                backgroundImage:
                                 NetworkImage(snapshot.data[index].avatar),
-                          ),
-                          title: Text(snapshot.data[index].firstName +
-                              " " +
-                              snapshot.data[index].lastName),
+                              ),
+                              title: Text(snapshot.data[index].firstName +
+                                  " " +
+                                  snapshot.data[index].lastName),
+                              trailing: Icon(Icons.info),
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 20, left: 80),
-                          child: Divider(thickness: 1.5),
-                        )
-                      ],
+                      ),
                     ),
                   );
                 },

@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/home_repository.dart';
 import 'package:flutter_app/models/user_model.dart';
+import 'package:photo_view/photo_view.dart';
 
 class UserDetailsView extends StatefulWidget {
   final UserModel userModel;
@@ -40,22 +42,46 @@ class _UserDetailsViewState extends State<UserDetailsView> {
             ),
             body: Column(
               children: [
-                Container(
-                  width: double.infinity,
-                  child: Image.network(
-                    snapshot.data['avatar'],
-                    fit: BoxFit.fill,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    height: 250,
+                    child: PhotoView.customChild(
+                      child: Container(
+                        child: Image.network(snapshot.data['avatar']),
+                      ),
+                      childSize: const Size(150.0, 150.0),
+                      backgroundDecoration: BoxDecoration(
+                        color: Theme.of(context).canvasColor,
+                      ),
+                      minScale: PhotoViewComputedScale.contained * 0.8,
+                      maxScale: PhotoViewComputedScale.covered * 1.2,
+                    ),
                   ),
                 ),
-                Text(snapshot.data['id'].toString()),
-                Text(snapshot.data['first_name']+" "+snapshot.data['last_name']),
-                Text(snapshot.data['email']),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    previousButton(),
-                    nextButton(),
-                  ],
+                Text(
+                  snapshot.data['id'].toString(),
+                  style: TextStyle(fontSize: 18),
+                ),
+                Text(
+                  snapshot.data['first_name'] +
+                      " " +
+                      snapshot.data['last_name'],
+                  style: TextStyle(fontSize: 18),
+                ),
+                Text(
+                  snapshot.data['email'],
+                  style: TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      previousButton(),
+                      nextButton(),
+                    ],
+                  ),
                 )
               ],
             ),
