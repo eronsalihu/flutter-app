@@ -24,20 +24,25 @@ class _HomeState extends State<Home> {
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
               return Container(
-                  child: Center(child: new CircularProgressIndicator()));
+                child: Center(
+                  child: new CircularProgressIndicator(),
+                ),
+              );
             } else {
               return ListView.builder(
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.push(
+                  return Card(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  UserDetailsView(snapshot.data[index])));
-                    },
-                    child: Card(
+                            builder: (context) =>
+                                UserDetailsView(snapshot.data[index]),
+                          ),
+                        );
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
@@ -46,7 +51,7 @@ class _HomeState extends State<Home> {
                               leading: CircleAvatar(
                                 radius: 30,
                                 backgroundImage:
-                                NetworkImage(snapshot.data[index].avatar),
+                                    NetworkImage(snapshot.data[index].avatar),
                               ),
                               title: Text(snapshot.data[index].firstName +
                                   " " +

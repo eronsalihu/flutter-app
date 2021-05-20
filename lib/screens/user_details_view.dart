@@ -48,7 +48,9 @@ class _UserDetailsViewState extends State<UserDetailsView> {
                     height: 250,
                     child: PhotoView.customChild(
                       child: Container(
-                        child: Image.network(snapshot.data['avatar']),
+                        child: Image.network(
+                          snapshot.data['avatar'],
+                        ),
                       ),
                       childSize: const Size(150.0, 150.0),
                       backgroundDecoration: BoxDecoration(
@@ -110,12 +112,13 @@ class _UserDetailsViewState extends State<UserDetailsView> {
 
   Widget previousButton() {
     return ElevatedButton(
-        onPressed: () {
-          if (widget.currUserId == 1) return;
-          setState(() {
-            widget.currUserId--;
-          });
-        },
-        child: Text("Prev"));
+      onPressed: () {
+        if (widget.currUserId == 1) return;
+        setState(() {
+          widget.currUserId--;
+        });
+      },
+      child: Text("Prev"),
+    );
   }
 }
