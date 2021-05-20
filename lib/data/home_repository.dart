@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_app/Models/user_model.dart';
+import 'package:flutter_app/models/user_model.dart';
 
 class HomeRepository {
   Future<List<UserModel>> getUsers() async {
@@ -17,4 +19,12 @@ class HomeRepository {
 
     return users;
   }
+
+  Future<List<UserModel>> getUserById(id) async {
+    var data = await http.get("https://reqres.in/api/users/$id");
+    var jsonData = json.decode(data.body)['data'];
+    print(jsonData);
+    return jsonData;
+  }
+
 }

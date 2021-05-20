@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/Screens/user_details_view.dart';
+import 'package:flutter_app/screens/user_details_view.dart';
 import 'package:flutter_app/data/home_repository.dart';
 import 'package:http/http.dart' as http;
 
@@ -23,7 +23,8 @@ class _HomeState extends State<Home> {
           future: home_repository.getUsers(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
-              return Container(child: Center(child: Text("Loading...")));
+              return Container(
+                  child: Center(child: new CircularProgressIndicator()));
             } else {
               return ListView.builder(
                 itemCount: snapshot.data.length,
