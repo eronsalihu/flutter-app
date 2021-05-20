@@ -20,7 +20,7 @@ class HomeRepository {
     return users;
   }
 
-  Future<List<UserModel>> getUserById(id) async {
+  Future getUserById(id) async {
     var data = await http.get("https://reqres.in/api/users/$id");
     var jsonData = json.decode(data.body)['data'];
     print(jsonData);
